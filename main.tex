@@ -1,0 +1,125 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+
+\title{ENGS93-Midterm}
+\author{Shibo Liu}
+\date{October 2023}
+
+\begin{document}
+
+\maketitle
+
+\section{Approximation}
+\subsection{Estimate exponent}
+Given that:
+\[ln2=0.6932,\ ln10=2.3026,\ ln2.7183=1\]
+We could interpret them as:
+\[e^{0.6932}(e^{0.7})=2,\ e^{2.3026}(e^{2.3})=10,\ e^1=2.7183\]
+Some tricks to make the result more precise when x is no so close to 0(Taylor extension), but using too much is not good:
+\[e^x=1+x+\frac{x^2}{2!}+....\]
+General Solution: estimate the exponent as a combination of these given exponents.\\ 
+\textbf{Example}:
+\[e^{2.8}=(e^{0.7})^4=(e^{0.6932}\times e^{0.0068})^4=(2 \times (1+0.0068))^4=2.0136^4 \approx 16.439659\]
+
+\subsection{Estimate root using the definition of derivative}
+\[f(x+ \triangle x) \approx f(x)+\frac{df}{dx}\triangle x\]
+Given that $\triangle$x is relatively negligible compared with x:
+\[\sqrt[n]{x+\triangle x}=\sqrt[n]{x}+\frac{\triangle x}{n}x^{\frac{1}{n}-1}\]
+\textbf{Example:}\\
+Estimate the fourth root of 85 using the definition of the derivative.\\
+First find the nearest number that has a fourth square root. In this case it is 81.
+\[\sqrt[4]{85}=\sqrt[4]{81+4}=\sqrt[4]{81}+\frac{1}{4}\frac{4}{x^{\frac{3}{4}}} \approx 3.037\]
+\subsection{Rule of 72}
+If:
+\[interest\ rate \times number\ of\ period = 72\]
+Then the number doubles.\\
+For example:\\
+Deposit 100 dollars for 12 years with a 6\% interest rate, then after 12 years the 100 dollars result in 200 dollars. Check with calculator:
+\[100 \times (1.06)^{12}=201.2\]
+Which is close to our approximation.\\
+Derivation of Rule of 72:\\
+Assume:
+\[(1+0.01x)^n=2\]
+\[nln(1+0.01x)=ln2=0.693\]
+Given that,
+\[ln(1+x)=\sum^\infty_{n=0}(-1)^n\frac{x^{n+1}}{n+1}\]
+\[0.0097nx = 0.693\]
+\[nx=\frac{0.693}{0.0097}=72\]
+\subsection{Stirling's approximation}
+\[n!=\sqrt{2\pi n}(\frac{n}{e})^n\]
+\section{Mathematical Proof}
+\subsection{Derive Poisson Distribution from Binomial Test. State ALL Assumptions.}
+(1) First we should figure out what is Binomial Distribution.\\ 
+N independent trials with two outcomes - success or failure, Success with probability p and failure with probability q=1-p. The probability that there are k successes is:
+\[P(X=k)=\binom{n}{k}p^kq^{n-k}=\binom{n}{k}p^k(1-p)^{n-k}\]
+\[\binom{n}{k}=\frac{n!}{x!(n-x)!}\]
+When the number of trials n becomes very large and the probability of success p becomes very small such that the product of np remains $\lambda$ constant.
+\[p=\frac{\lambda}{n}\]
+\[q=1-p=1-\frac{\lambda}{n}\]
+The original Binomial test becomes:
+\[\lim_{n \to \infty} P(X=k)=\binom{n}{k}p^k(1-p)^{n-k}=\frac{n!}{k!(n-k)!}(\frac{\lambda}{n})^k(1-\frac{\lambda}{n})^{n-k}\]
+Get the constants out of the limit:
+\[\frac{\lambda^k}{k!} \lim_{n \to \infty}\frac{n!}{(n-k)!}(\frac{1}{n})^k(1-\frac{\lambda}{n})^n(1-\frac{\lambda}{n})^{-k}\]
+Divide and conquer:
+\[\lim_{n \to \infty}\frac{n!}{(n-k)!n^k}=\lim_{n \to \infty}\frac{n(n-1)...(n-k+1)}{n^k}=\lim_{n \to \infty}\frac{n}{n} \times \frac{n-1}{n} \times ... \times \frac{n-k+1}{n}=1\]
+Then we look at this term:
+\[\lim_{n \to \infty}(1-\frac{\lambda}{n})^n\]
+Recall that:
+\[e^x=\lim_{x \to \infty}(1+\frac{1}{x})^x\]
+Let,
+\[x=-\frac{n}{\lambda}\]
+Then,
+\[\lim_{n \to \infty}(1-\frac{\lambda}{n})^n=\lim_{n \to \infty}(1+\frac{1}{x})^{-\lambda x}=e^{-\lambda}\]
+Combining these three terms together, we can get the Poisson distribution:
+\[P(\lambda, x)=\frac{\lambda^ke^{-\lambda}}{k!}\]
+\subsection{Derive Mean and Variance of a Continuous Uniform Distribution}
+The uniform distribution is given as:
+\[f(x) = \frac{1}{b-a}, a \leq x \leq b\]
+The general method to get the mean of a distribution:
+\[E(x)=\sum_x xf(x)=\int_0^\infty xf(x)dx=\int_a^b \frac{x}{b-a}dx=\frac{x^2}{2(b-a)}|_a^b=\frac{a+b}{2}\]
+\[V(x)=E(x-\mu)^2=\sum_x(x-\mu)^2f(x)=\sum_x(x^2-2\mu x+\mu^2)f(x)=\sum_x x^2f(x)-2\mu^2+\mu^2=\sum_x x^2f(x)-\mu^2\]
+\[V(x)=\int_a^b\frac{x^2}{b-a}dx-(\frac{a+b}{2})^2=\frac{x^3}{3(b-a)}|^b_a-\mu^2=\frac{(a-b)^2}{12}\]
+\[b^3-a^3=(b-a)(a^2+ab+b^2)\]
+
+\subsection{Derive the mean and variance of a discrete uniform distribution}
+\[f(x) =\frac{1}{n}\]
+
+\[\mu = \sum_{k=1}^n k \times \frac{1}{n}=\frac{n+1}{2}\]
+\[\sigma ^2=E(x^2)-E(x)^2=\frac{(n+1)(2n+1)}{6}-(\frac{n+1}{2})^2=\frac{n^2-1}{12}\]
+\subsection{Derive Exponential Distribution from Poisson Distribution}
+Interpretation of Poisson distribution: the number of occurrences per interval of time.\\
+Interpretation of Exponential distribution: length of time between two occurrences.\\
+Consider a Poisson process, there will be an average of $\lambda t$ occurrences per t units of time:
+\[P(X=0)=e^{-\lambda t}\]
+Another interpretation of exponential distribution is the probability that time T to the first occurrence is greater than t:
+\[P(T>t)=P(x=0|\mu=\lambda t)=e^{-\lambda t}=1-P(T \leq t)\]
+Cumulative exponential distribution is:
+\[P(T \leq t)=1-e^{-\lambda t}\]
+Take the derivative of the cumulative exponential distribution:
+\[f(t)=\lambda e^{-\lambda t}\]
+\subsection{Derive the Mean of the Exponential Distribution is $\frac{1}{\lambda}$}
+The probability distribution function of exponential distribution is:
+\[f(x)=\lambda e^{-\lambda x}\]
+The mean of exponential distribution is:
+\[\mu = \int x\lambda e^{-\lambda x}dx=\int xd(-e^{-\lambda x})=-xe^{-\lambda x}+\int e^{-\lambda x}dx=\frac{1}{\lambda}\]
+\[\sigma^2=\frac{1}{\lambda^2}\]
+\section{Using Normal Distribution to Estimate Binomial Distribution}
+Only if np and n(1-p) are greater than 5. Once these two are satisfied:
+\[\mu =np,\ \sigma^2 = np(1-p)\]
+\section{Box Plot Interpretation}
+What can we learn from a box plot?\\
+The interval between the two blocks is 1.35$\sigma$. If the distribution is a perfectly symmetric normal distribution, the median is also the mean of the distribution.
+\section{Linear combination of random variables}
+Assume $X_1$ and $X_2$ are two random variables. Y is a linear combination of $X_1$ and $X_2$.\\
+\[Y = 2X_1+2X_2\]
+\[E(Y)=2E(X_1)+2E(X_2)\]
+\[V(Y)=4E(X_1)+4E(X_2)\]
+\section{Add sigma in quadrature}
+Player I with mean of 68, standard deviation of 3.\\
+Player II with mean of 82, standard deviation of 4.\\
+The chance player I beats player II:
+\[S_T = \sqrt{3^2+4^2}=5\]
+Test statistics is,
+\[Z=\frac{X_1-X_2}{S_T}\]
+\end{document}
